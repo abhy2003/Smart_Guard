@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Welcome Back!',
+              'Welcome to smart gaurd!',
               style: GoogleFonts.poppins(
                 color: Colors.white,
                 fontSize: 28,

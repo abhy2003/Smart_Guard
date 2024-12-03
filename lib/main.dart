@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smart_gaurd/view/homescreen.dart';
 import 'package:smart_gaurd/view/loginscreen.dart';
 import 'package:smart_gaurd/view/signupscreen.dart';
 
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/', page: () => LoginPage()),
         GetPage(name: '/signup', page: () => SignUpScreen()),
+        GetPage(name: '/home', page: () => Homescreen(),)
       ],
     );
   }

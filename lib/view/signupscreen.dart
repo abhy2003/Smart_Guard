@@ -154,7 +154,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               colorText: Colors.white,
                             );
                             // Navigate to the next page using GetX (Home or any other screen)
-                            Get.toNamed('/home');
+                            Get.toNamed('/');
                           }
                         },
                         style: ElevatedButton.styleFrom(
