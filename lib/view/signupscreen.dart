@@ -1,26 +1,16 @@
+// sign_up_screen.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../controller/signup_controller.dart';
 
-class SignUpScreen extends StatefulWidget {
-  @override
-  _SignUpScreenState createState() => _SignUpScreenState();
-}
+class SignUpScreen extends StatelessWidget {
+  final _controller = Get.put(SignUpController());
 
-class _SignUpScreenState extends State<SignUpScreen> {
   final _lockIdController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
-  // Regular expression for email validation
-  final RegExp _emailRegex = RegExp(
-    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-  );
-
-  // Regular expression for password validation:
-  // At least 8 characters, at least one uppercase letter, one special character, and one number
-  final RegExp _passwordRegex = RegExp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$');
 
   @override
   Widget build(BuildContext context) {
@@ -72,12 +62,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       errorStyle: TextStyle(color: Colors.redAccent),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your lock ID';
-                      }
-                      return null;
-                    },
+                    onChanged: (value) => _controller.lockId = value,
+                    validator: (_) => _controller.signUpModel.validateLockId(),
                   ),
                   SizedBox(height: 20),
                   // Email field
@@ -99,14 +85,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       errorStyle: TextStyle(color: Colors.redAccent),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter an email';
-                      } else if (!_emailRegex.hasMatch(value)) {
-                        return 'Please enter a valid email';
-                      }
-                      return null;
-                    },
+                    onChanged: (value) => _controller.email = value,
+                    validator: (_) => _controller.signUpModel.validateEmail(),
                   ),
                   SizedBox(height: 20),
                   // Password field
@@ -129,14 +109,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       errorStyle: TextStyle(color: Colors.redAccent),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a password';
-                      } else if (!_passwordRegex.hasMatch(value)) {
-                        return 'Password must be at least 8 characters, contain one uppercase letter, one special character, and one number';
-                      }
-                      return null;
-                    },
+                    onChanged: (value) => _controller.password = value,
+                    validator: (_) => _controller.signUpModel.validatePassword(),
                   ),
                   SizedBox(height: 40),
                   Center(
@@ -146,19 +120,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState?.validate() ?? false) {
-                            Get.snackbar(
-                              'Sign Up Attempt',
-                              'Attempting to sign up...',
-                              snackPosition: SnackPosition.BOTTOM,
-                              backgroundColor: Colors.green,
-                              colorText: Colors.white,
-                            );
-                            // Navigate to the next page using GetX (Home or any other screen)
-                            Get.toNamed('/');
+                            _controller.signUp();
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green, // Green button color
+                          backgroundColor: Colors.green,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -178,7 +144,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Center(
                     child: TextButton(
                       onPressed: () {
-                        // Navigate to the Login page
                         Get.toNamed('/login');
                       },
                       child: Text(
