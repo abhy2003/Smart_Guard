@@ -9,8 +9,8 @@ class HomeController extends GetxController {
   final TextEditingController lockIdController = TextEditingController();
 
   // User info
-  final String name = "John Doe";  // Example name, you can replace with dynamic data if needed
-  final String email = "johndoe@example.com";  // Example email, you can replace with dynamic data if needed
+  final String name = "John Doe";  // Example name, replace with dynamic data if needed
+  final String email = "johndoe@example.com";  // Example email, replace with dynamic data if needed
 
   // Colors for lock status
   final Map<String, Color> statusColors = {
@@ -26,8 +26,14 @@ class HomeController extends GetxController {
     String lockId = lockIdController.text.trim();
 
     if (nickname.isNotEmpty && lockId.isNotEmpty) {
-      currentLock.value = LockModel(lockId: lockId, nickname: nickname);
-      currentLock.value!.updateStatus("Locked"); // Default status
+      currentLock.value = LockModel(
+        lockId: lockId,
+        nickname: nickname,
+      );
+      currentLock.value!.updateStatus("Locked"); // Default status for lock
+      currentLock.value!.updateTamperingStatus("No Tampering"); // Default tampering status
+      currentLock.value!.updateAcclamationStatus("Not Acclaimed"); // Default acclamation status
+
       Get.snackbar(
         "Connected",
         "Successfully connected to $nickname!",
@@ -41,6 +47,34 @@ class HomeController extends GetxController {
         "Please fill in both fields.",
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+
+  // Update tampering status
+  void updateTamperingStatus(String status) {
+    if (currentLock.value != null) {
+      currentLock.value!.updateTamperingStatus(status);
+      Get.snackbar(
+        "Tampering Status Updated",
+        "Tampering status updated to: $status",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.blue,
+        colorText: Colors.white,
+      );
+    }
+  }
+
+  // Update acclamation status
+  void updateAcclamationStatus(String status) {
+    if (currentLock.value != null) {
+      currentLock.value!.updateAcclamationStatus(status);
+      Get.snackbar(
+        "Acclamation Status Updated",
+        "Acclamation status updated to: $status",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.blue,
         colorText: Colors.white,
       );
     }

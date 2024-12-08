@@ -51,12 +51,12 @@ class Homescreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Nickname: ${lock.nickname}',
+                    'Nickname: ${controller.name}',
                     style: GoogleFonts.poppins(color: Colors.white, fontSize: 18),
                   ),
                   SizedBox(height: 8),
                   Text(
-                    'Lock ID: ${lock.lockId}',
+                    'Email: ${controller.email}',
                     style: GoogleFonts.poppins(color: Colors.white, fontSize: 18),
                   ),
                 ],
@@ -236,43 +236,69 @@ class Homescreen extends StatelessWidget {
               if (lock != null)
                 Card(
                   margin: EdgeInsets.all(16),
-                  color: Colors.grey[850],
+                  color: Colors.black, // Black background for the card
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(12), // Slightly rounded corners for a modern feel
                   ),
+                  elevation: 8, // Added shadow to make the card stand out
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start, // Align text to the left for clarity
                       children: [
                         Text(
                           'Connected to ${lock.nickname} (Lock ID: ${lock.lockId})',
-                          style: GoogleFonts.poppins(color: Colors.white, fontSize: 18),
-                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                            color: Colors.white, // White text for clarity
+                            fontSize: 20, // Increased font size for better readability
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.start, // Align text to the left
                         ),
                         SizedBox(height: 10),
                         _buildLockStatus(controller),
-                        ElevatedButton(
-                          onPressed: () {
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blueAccent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          child: Text(
-                            'Live Video',
-                            style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Tampering: ${lock.tamperingValue ?? "No"}',
+                          style: GoogleFonts.poppins(
+                            color: Colors.redAccent, // Red color for highlighting tampering status
+                            fontSize: 20, // Increased font size for better visibility
+                            fontWeight: FontWeight.w600, // Slightly lighter weight for variety
                           ),
                         ),
+                        SizedBox(height: 5),
+                        Text(
+                          'Alcamation: ${lock.acclamationValue ?? "No"}',
+                          style: GoogleFonts.poppins(
+                            color: Colors.redAccent, // Red color for highlighting alarmation status
+                            fontSize: 20, // Increased font size for better visibility
+                            fontWeight: FontWeight.w600, // Slightly lighter weight for variety
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        // ElevatedButton(
+                        //   onPressed: () {},
+                        //   style: ElevatedButton.styleFrom(
+                        //     foregroundColor: Colors.white, backgroundColor: Colors.red, // White text on the button
+                        //     shape: RoundedRectangleBorder(
+                        //       borderRadius: BorderRadius.circular(8),
+                        //     ),
+                        //     padding: EdgeInsets.symmetric(vertical: 16, horizontal: 30), // Added padding to the button
+                        //   ),
+                        //   child: Text(
+                        //     'Live Video',
+                        //     style: GoogleFonts.poppins(
+                        //       color: Colors.white, // White text color
+                        //       fontSize: 20, // Increased font size for button text
+                        //       fontWeight: FontWeight.bold,
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
                 ),
+
               Text(
                 'Tap the button to connect',
                 style: GoogleFonts.poppins(
