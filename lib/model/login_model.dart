@@ -4,7 +4,7 @@ class LoginModel {
 
   LoginModel({this.email, this.password});
 
-  // Validate email
+
   String? validateEmail(String? value) {
     final emailRegex =
     RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
@@ -16,7 +16,6 @@ class LoginModel {
     return null;
   }
 
-  // Validate password
   String? validatePassword(String? value) {
     final passwordRegex = RegExp(
         r'^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$');

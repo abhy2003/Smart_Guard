@@ -1,4 +1,3 @@
-// models/home_screen_model.dart
 class HomeScreenModel {
   String nickname;
   String lockId;

@@ -1,7 +1,6 @@
-// controllers/home_controller.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../model/lock_model.dart';
+import '../model/homescreen_model.dart';
 
 class HomeController extends GetxController {
   var locks = <HomeScreenModel>[].obs;
@@ -21,9 +20,9 @@ class HomeController extends GetxController {
       final newLock = HomeScreenModel(
         nickname: nicknameController.text.trim(),
         lockId: lockIdController.text.trim(),
-        lockStatus: "Not Connected", // Default status
-        tamperingValue: "No", // Default tampering value
-        sensorvalue: "N/A", // Default sensor value
+        lockStatus: "Not Connected",
+        tamperingValue: "No",
+        sensorvalue: "N/A",
       );
       locks.add(newLock);
       nicknameController.clear();
@@ -38,7 +37,7 @@ class HomeController extends GetxController {
       lock.lockStatus = status;
       lock.tamperingValue = tampering;
       lock.sensorvalue = sensor;
-      locks.refresh(); // Refresh the observable list to update the UI
+      locks.refresh();
     }
   }
   void updateSelectedLock(String status, String tampering, String sensor) {
@@ -62,7 +61,8 @@ class HomeController extends GetxController {
     }
   }
 
+
   void logout() {
-    // Add logout logic here
+
   }
 }
