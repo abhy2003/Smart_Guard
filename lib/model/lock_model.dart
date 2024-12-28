@@ -1,29 +1,16 @@
-class LockModel {
-  String lockId;
+// models/home_screen_model.dart
+class HomeScreenModel {
   String nickname;
+  String lockId;
   String lockStatus;
-  String tamperingValue;
-  String acclamationValue;
+  String? tamperingValue;
+  String? sensorvalue;
 
-  LockModel({
-    required this.lockId,
+  HomeScreenModel({
     required this.nickname,
+    required this.lockId,
     this.lockStatus = "Not Connected",
-    this.tamperingValue = "83.0", // Default value for tampering status
-    this.acclamationValue = "23.3", // Default value for acclamation status
+    this.tamperingValue,
+    this.sensorvalue,
   });
-
-  // Update lock status
-  void updateStatus(String status) {
-    lockStatus = status;
-  }
-
-  void updateTamperingStatus(String tampering) {
-    tamperingValue = tampering;
-  }
-
-
-  void updateAcclamationStatus(String acclamation) {
-    acclamationValue = acclamation;
-  }
 }
