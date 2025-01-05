@@ -20,9 +20,9 @@ class HomeController extends GetxController {
       final newLock = HomeScreenModel(
         nickname: nicknameController.text.trim(),
         lockId: lockIdController.text.trim(),
-        lockStatus: "Not Connected",
-        tamperingValue: "No",
-        sensorvalue: "N/A",
+        lockStatus: 'Not Connected'.obs,
+        tamperingValue: 'No'.obs,
+        sensorvalue: 'N/A'.obs,
       );
       locks.add(newLock);
       nicknameController.clear();
@@ -31,24 +31,27 @@ class HomeController extends GetxController {
       Get.snackbar("Error", "Please fill in all fields.");
     }
   }
+
+
   void updateLockStatus(String lockId, String status, String tampering, String sensor) {
     final lock = locks.firstWhereOrNull((lock) => lock.lockId == lockId);
     if (lock != null) {
-      lock.lockStatus = status;
-      lock.tamperingValue = tampering;
-      lock.sensorvalue = sensor;
+      lock.lockStatus.value = status;
+      lock.tamperingValue.value = tampering;
+      lock.sensorvalue.value = sensor;
       locks.refresh();
     }
   }
+
+  // Update the selected lock's details
   void updateSelectedLock(String status, String tampering, String sensor) {
     if (selectedLock.value != null) {
-      selectedLock.value!.lockStatus = status;
-      selectedLock.value!.tamperingValue = tampering;
-      selectedLock.value!.sensorvalue = sensor;
+      selectedLock.value!.lockStatus.value = status;
+      selectedLock.value!.tamperingValue.value = tampering;
+      selectedLock.value!.sensorvalue.value = sensor;
       selectedLock.refresh();
     }
   }
-
 
   void selectLock(HomeScreenModel lock) {
     selectedLock.value = lock;
@@ -59,10 +62,5 @@ class HomeController extends GetxController {
     if (selectedLock.value == lock) {
       selectedLock.value = null;
     }
-  }
-
-
-  void logout() {
-
   }
 }

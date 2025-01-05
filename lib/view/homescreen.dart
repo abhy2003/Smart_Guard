@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_gaurd/controller/login_controller.dart';
+import 'package:smart_gaurd/view/vedio_player.dart';
 import '../controller/homescreen_controller.dart';
 import '../model/homescreen_model.dart';
 
@@ -94,7 +95,6 @@ class Homescreen extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildLockCard(HomeScreenModel lock) {
     return Card(
       elevation: 4,
@@ -107,34 +107,137 @@ class Homescreen extends StatelessWidget {
           children: [
             Text(
               lock.nickname,
-              style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+              style: GoogleFonts.poppins(
+                  fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
             ),
             SizedBox(height: 8),
-            Text('Lock ID: ${lock.lockId}', style: GoogleFonts.poppins(fontSize: 14, color: Colors.white70)),
+            Text(
+              'Lock ID: ${lock.lockId}',
+              style: GoogleFonts.poppins(fontSize: 14, color: Colors.white70),
+            ),
             SizedBox(height: 8),
             Row(
               children: [
                 Text(
                   'Status: ',
-                  style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+                  style: GoogleFonts.poppins(
+                      fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
-                Text(
-                  lock.lockStatus == 'locked' ? 'Locked' : 'Unlocked',
+                Obx(() => Text(
+                  lock.lockStatus.value == 'locked' ? 'Locked' : 'Unlocked',
                   style: GoogleFonts.poppins(
                     fontSize: 14,
-                    color: lock.lockStatus == 'locked' ? Colors.red : Colors.green,
+                    color: lock.lockStatus.value == 'locked' ? Colors.red : Colors.green,
                   ),
-                ),
+                )),
               ],
             ),
             SizedBox(height: 8),
-            Text('Tampering: ${lock.tamperingValue ?? "No"}', style: GoogleFonts.poppins(fontSize: 14, color: Colors.white70)),
-            Text('Sensor: ${lock.sensorvalue ?? "N/A"}', style: GoogleFonts.poppins(fontSize: 14, color: Colors.white70)),
+            Text(
+              'Tampering: ${lock.tamperingValue ?? "No"}',
+              style: GoogleFonts.poppins(fontSize: 14, color: Colors.white70),
+            ),
+            Text(
+              'Sensor: ${lock.sensorvalue ?? "N/A"}',
+              style: GoogleFonts.poppins(fontSize: 14, color: Colors.white70),
+            ),
+            SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Obx(() => ElevatedButton.icon(
+                onPressed: () {
+                  lock.isBluetoothConnected.value =
+                  !lock.isBluetoothConnected.value;
+                  Get.snackbar(
+                    "Bluetooth",
+                    lock.isBluetoothConnected.value
+                        ? "Bluetooth Connected"
+                        : "Bluetooth Disconnected",
+                  );
+                },
+                icon: Icon(Icons.bluetooth,
+                    color: Colors.white),
+                label: Text(
+                  lock.isBluetoothConnected.value ? "Disconnect" : "Connect",
+                  style: GoogleFonts.poppins(color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: lock.isBluetoothConnected.value
+                      ? Colors.red
+                      : Colors.blue,
+                ),
+              )),
+              Obx(() => ElevatedButton.icon(
+                onPressed: () {
+                  lock.isWiFiConnected.value =
+                  !lock.isWiFiConnected.value;
+                  Get.snackbar(
+                    "WiFi",
+                    lock.isWiFiConnected.value
+                        ? "WiFi Connected"
+                        : "WiFi Disconnected",
+                  );
+                },
+                icon: Icon(Icons.wifi,
+                    color: Colors.white),
+                label: Text(
+                  lock.isWiFiConnected.value ? "Disconnect" : "Connect",
+                  style: GoogleFonts.poppins(color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: lock.isWiFiConnected.value
+                      ? Colors.red
+                      : Colors.green,
+                ),
+              )),
+            ],
+          ),
+          SizedBox(height: 16),
+            Obx(() => Center(
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  lock.lockStatus.value = lock.lockStatus.value == 'locked' ? 'unlocked' : 'locked';
+                  Get.snackbar(
+                    "Lock Status",
+                    lock.lockStatus.value == 'locked' ? "Lock Activated" : "Lock Deactivated",
+                  );
+                },
+                icon: Icon(
+                  lock.lockStatus.value == 'locked' ? Icons.lock : Icons.lock_open,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  lock.lockStatus.value == 'locked' ? "Unlock" : "Lock",
+                  style: GoogleFonts.poppins(color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: lock.lockStatus.value == 'locked' ? Colors.red : Colors.green,
+                ),
+              ),
+            )),
+            SizedBox(height: 16),
+            // Live Video Button
+            Center(
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Get.snackbar("Live Video", "Opening live video...");
+                  Get.to(() => VedioPlayer_live());
+                },
+                icon: Icon(Icons.videocam, color: Colors.white),
+                label: Text(
+                  "View Live Video",
+                  style: GoogleFonts.poppins(color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
+
 
   void _showConnectSheet() {
     Get.bottomSheet(
