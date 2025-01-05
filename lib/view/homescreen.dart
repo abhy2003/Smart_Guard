@@ -1,7 +1,7 @@
-// views/home_ui.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:smart_gaurd/controller/login_controller.dart';
 import 'package:smart_gaurd/view/vedio_player.dart';
 import '../controller/homescreen_controller.dart';
@@ -10,6 +10,7 @@ import '../model/homescreen_model.dart';
 class Homescreen extends StatelessWidget {
   final HomeController controller = Get.put(HomeController());
   final LoginController logcontroller=Get.put(LoginController());
+
 
   @override
   Widget build(BuildContext context) {
@@ -142,58 +143,102 @@ class Homescreen extends StatelessWidget {
               style: GoogleFonts.poppins(fontSize: 14, color: Colors.white70),
             ),
             SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Obx(() => ElevatedButton.icon(
-                onPressed: () {
-                  lock.isBluetoothConnected.value =
-                  !lock.isBluetoothConnected.value;
-                  Get.snackbar(
-                    "Bluetooth",
-                    lock.isBluetoothConnected.value
-                        ? "Bluetooth Connected"
-                        : "Bluetooth Disconnected",
-                  );
-                },
-                icon: Icon(Icons.bluetooth,
-                    color: Colors.white),
-                label: Text(
-                  lock.isBluetoothConnected.value ? "Disconnect" : "Connect",
-                  style: GoogleFonts.poppins(color: Colors.white),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: lock.isBluetoothConnected.value
-                      ? Colors.red
-                      : Colors.blue,
-                ),
-              )),
-              Obx(() => ElevatedButton.icon(
-                onPressed: () {
-                  lock.isWiFiConnected.value =
-                  !lock.isWiFiConnected.value;
-                  Get.snackbar(
-                    "WiFi",
-                    lock.isWiFiConnected.value
-                        ? "WiFi Connected"
-                        : "WiFi Disconnected",
-                  );
-                },
-                icon: Icon(Icons.wifi,
-                    color: Colors.white),
-                label: Text(
-                  lock.isWiFiConnected.value ? "Disconnect" : "Connect",
-                  style: GoogleFonts.poppins(color: Colors.white),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: lock.isWiFiConnected.value
-                      ? Colors.red
-                      : Colors.green,
-                ),
-              )),
-            ],
-          ),
-          SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Obx(() => ElevatedButton.icon(
+                  onPressed: () async {
+                    lock.isBluetoothLoading.value = true;
+                    await Future.delayed(Duration(seconds: 2));
+                    lock.isBluetoothConnected.value = !lock.isBluetoothConnected.value;
+                    lock.isBluetoothLoading.value = false;
+                    if (!lock.isBluetoothAnimationShown.value && lock.isBluetoothConnected.value) {
+                      lock.isBluetoothAnimationShown.value = true;
+                    } else if (!lock.isBluetoothConnected.value) {
+                      lock.isBluetoothAnimationShown.value = false;
+                    }
+
+                    Get.snackbar(
+                      "Bluetooth",
+                      lock.isBluetoothConnected.value
+                          ? "Bluetooth Connected"
+                          : "Bluetooth Disconnected",
+                    );
+                  },
+                  icon: lock.isBluetoothLoading.value
+                      ? Center(child: CircularProgressIndicator(color: Colors.white))
+                      : Icon(Icons.bluetooth, color: Colors.white),
+                  label: lock.isBluetoothLoading.value
+                      ? Container() // Empty container while loading
+                      : lock.isBluetoothAnimationShown.value
+                      ? Column(
+                    children: [
+                      Lottie.asset('assets/homescreen/bluetooth.json', width: 40, height: 40),
+                      Text(
+                        "Connected",
+                        style: GoogleFonts.poppins(color: Colors.white),
+                      ),
+                    ],
+                  )
+                      : Text(
+                    "Connect",
+                    style: GoogleFonts.poppins(color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: lock.isBluetoothConnected.value
+                        ? Colors.red
+                        : Colors.blue,
+                  ),
+                )),
+                Obx(() => ElevatedButton.icon(
+                  onPressed: () async {
+                    lock.isWiFiLoading.value = true;
+                    await Future.delayed(Duration(seconds: 2));
+                    lock.isWiFiConnected.value = !lock.isWiFiConnected.value;
+                    lock.isWiFiLoading.value = false;
+
+                    if (!lock.isWiFiAnimationShown.value && lock.isWiFiConnected.value) {
+                      lock.isWiFiAnimationShown.value = true;
+                    } else if (!lock.isWiFiConnected.value) {
+                      lock.isWiFiAnimationShown.value = false;
+                    }
+
+                    Get.snackbar(
+                      "WiFi",
+                      lock.isWiFiConnected.value
+                          ? "WiFi Connected"
+                          : "WiFi Disconnected",
+                    );
+                  },
+                  icon: lock.isWiFiLoading.value
+                      ? Center(child: CircularProgressIndicator(color: Colors.white))
+                      : Icon(Icons.wifi, color: Colors.white),
+                  label: lock.isWiFiLoading.value
+                      ? Container() // Empty container while loading
+                      : lock.isWiFiAnimationShown.value
+                      ? Column(
+                    children: [
+                      Lottie.asset('assets/homescreen/wifi.json', width: 40, height: 40),
+                      Text(
+                        "Connected",
+                        style: GoogleFonts.poppins(color: Colors.white),
+                      ),
+                    ],
+                  )
+                      : Text(
+                    "Connect",
+                    style: GoogleFonts.poppins(color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: lock.isWiFiConnected.value
+                        ? Colors.red
+                        : Colors.green,
+                  ),
+                )),
+              ],
+            ),
+
+            SizedBox(height: 16),
             Obx(() => Center(
               child: ElevatedButton.icon(
                 onPressed: () {

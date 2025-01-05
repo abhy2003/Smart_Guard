@@ -8,7 +8,10 @@ class HomeScreenModel {
   RxString sensorvalue;
   var isBluetoothConnected = false.obs;
   var isWiFiConnected = false.obs;
-
+  var isBluetoothLoading = false.obs;
+  var isWiFiLoading = false.obs;
+  var isBluetoothAnimationShown = false.obs;
+  var isWiFiAnimationShown = false.obs;
   HomeScreenModel({
     required this.nickname,
     required this.lockId,

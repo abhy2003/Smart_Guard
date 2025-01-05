@@ -63,4 +63,7 @@ class HomeController extends GetxController {
       selectedLock.value = null;
     }
   }
+  void logout(){
+
+  }
 }
