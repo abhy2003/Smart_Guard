@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:smart_gaurd/controller/login_controller.dart';
-import 'package:smart_gaurd/view/vedio_player.dart';
+import 'package:smart_gaurd/view/video_player.dart';
 import '../controller/homescreen_controller.dart';
 import '../model/homescreen_model.dart';
 
@@ -274,7 +274,7 @@ class Homescreen extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: () {
                   Get.snackbar("Live Video", "Opening live video...");
-                  Get.to(() => VedioPlayer_live());
+                  Get.to(() => VideoPlayer_live());
                 },
                 icon: Icon(Icons.videocam, color: Colors.white),
                 label: Text(

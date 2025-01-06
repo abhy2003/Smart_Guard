@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class VedioPlayer_live extends StatefulWidget {
-  const VedioPlayer_live({super.key});
+class VideoPlayer_live extends StatefulWidget {
+  const VideoPlayer_live({super.key});
 
   @override
-  State<VedioPlayer_live> createState() => _VedioPlayer_liveState();
+  State<VideoPlayer_live> createState() => _VideoPlayer_liveState();
 }
 
-class _VedioPlayer_liveState extends State<VedioPlayer_live> {
+class _VideoPlayer_liveState extends State<VideoPlayer_live> {
   // URL of the YouTube video
-  final vedioURL = "https://youtu.be/4VQdzTv8E-g?si=MBbe-JOsU8Wix2rb";
+  final VideoURL = "https://youtu.be/4VQdzTv8E-g?si=MBbe-JOsU8Wix2rb";
 
   // Controller to manage the YouTube video
   late YoutubePlayerController playerController;
@@ -21,10 +21,10 @@ class _VedioPlayer_liveState extends State<VedioPlayer_live> {
 
   @override
   void initState() {
-    final vedioId = YoutubePlayer.convertUrlToId(vedioURL);
+    final VideoId = YoutubePlayer.convertUrlToId(VideoURL);
     // Initialize the YouTube player controller with video ID
     playerController = YoutubePlayerController(
-      initialVideoId: vedioId!,
+      initialVideoId: VideoId!,
       flags: const YoutubePlayerFlags(
         autoPlay: false, // Do not autoplay the video
       ),
@@ -120,7 +120,7 @@ class _VedioPlayer_liveState extends State<VedioPlayer_live> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    "Your Live vedio here",
+                    "Your Live Video here",
                     style: GoogleFonts.poppins(
                       color: Colors.white,
                       fontSize: 16,
