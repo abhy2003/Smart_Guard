@@ -17,72 +17,38 @@ class HomeController extends GetxController {
 
   void connectLock() {
     if (nicknameController.text.isNotEmpty && lockIdController.text.isNotEmpty) {
-      bool isLockFound = checkForLock();
-
-      if (isLockFound) {
-        final newLock = HomeScreenModel(
-          nickname: nicknameController.text.trim(),
-          lockId: lockIdController.text.trim(),
-          lockStatus: 'Not Connected'.obs,
-          tamperingValue: 'No'.obs,
-          motion: 'N/A'.obs,
-          vibration: 0.0.obs,
-        );
-        locks.add(newLock);
-
-        Get.snackbar(
-          "Success",
-          "Lock found",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-        );
-
-        nicknameController.clear();
-        lockIdController.clear();
-      } else {
-        Get.snackbar(
-          "Error",
-          "Lock doesn't found",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-        );
-      }
-    } else {
-      Get.snackbar(
-        "Error",
-        "Please fill in all fields.",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+      final newLock = HomeScreenModel(
+        name: nicknameController.text.trim(),
+        connection_id: 29829,
+        lockStatus: 'Not Connected'.obs,
+        tamperingValue: bool.fromEnvironment('yes'),
+        motion: 0.0.obs,
+        vibration: 0.0.obs,
       );
+      locks.add(newLock);
+      nicknameController.clear();
+      lockIdController.clear();
+    } else {
+      Get.snackbar("Error", "Please fill in all fields.");
     }
   }
 
 
-  bool checkForLock() {
-    return nicknameController.text == "ValidNickname" &&
-        lockIdController.text == "ValidLockID";
-  }
-
-
-
-  void updateLockStatus(String lockId, String status, String tampering, String sensor) {
-    final lock = locks.firstWhereOrNull((lock) => lock.lockId == lockId);
+  void updateLockStatus(String lockId, String status,  bool tampering, double sensor) {
+    final lock = locks.firstWhereOrNull((lock) => lock.connection_id == lockId);
     if (lock != null) {
       lock.lockStatus.value = status;
-      lock.tamperingValue.value = tampering;
+      lock.tamperingValue = tampering;
       lock.motion.value = sensor;
       locks.refresh();
     }
   }
 
   // Update the selected lock's details
-  void updateSelectedLock(String status, String tampering, String sensor) {
+  void updateSelectedLock(String status, bool tampering, double sensor) {
     if (selectedLock.value != null) {
       selectedLock.value!.lockStatus.value = status;
-      selectedLock.value!.tamperingValue.value = tampering;
+      selectedLock.value!.tamperingValue = tampering;
       selectedLock.value!.motion.value = sensor;
       selectedLock.refresh();
     }

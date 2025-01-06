@@ -76,8 +76,8 @@ class Homescreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final lock = controller.locks[index];
                     return ListTile(
-                      title: Text(lock.nickname, style: TextStyle(color: Colors.white)),
-                      subtitle: Text('Lock ID: ${lock.lockId}', style: TextStyle(color: Colors.white70)),
+                      title: Text(lock.name, style: TextStyle(color: Colors.white)),
+                      subtitle: Text('Lock ID: ${lock.connection_id}', style: TextStyle(color: Colors.white70)),
                       trailing: IconButton(
                         icon: Icon(Icons.delete, color: Colors.redAccent),
                         onPressed: () => controller.removeLock(lock),
@@ -107,13 +107,13 @@ class Homescreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              lock.nickname,
+              lock.name,
               style: GoogleFonts.poppins(
                   fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
             ),
             SizedBox(height: 8),
             Text(
-              'Lock ID: ${lock.lockId}',
+              'Lock ID: ${lock.connection_id}',
               style: GoogleFonts.poppins(fontSize: 14, color: Colors.white70),
             ),
             SizedBox(height: 8),
@@ -299,7 +299,7 @@ class Homescreen extends StatelessWidget {
             TextField(
               controller: controller.nicknameController,
               decoration: InputDecoration(
-                labelText: 'Nickname',
+                labelText: 'Name',
                 labelStyle: TextStyle(color: Colors.white70),
                 filled: true,
                 fillColor: Colors.grey[700],
@@ -317,7 +317,7 @@ class Homescreen extends StatelessWidget {
             TextField(
               controller: controller.lockIdController,
               decoration: InputDecoration(
-                labelText: 'Lock ID',
+                labelText: 'Connection ID',
                 labelStyle: TextStyle(color: Colors.white70),
                 filled: true,
                 fillColor: Colors.grey[700],
@@ -335,6 +335,14 @@ class Homescreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 controller.connectLock();
+                Get.snackbar(
+                  'Success',
+                  'Lock found',
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.green,
+                  colorText: Colors.white,
+                  duration: Duration(seconds: 3),
+                );
                 Get.back();
               },
               child: Text('Add Lock', style: GoogleFonts.poppins(color:Colors.black,fontSize: 18, fontWeight: FontWeight.bold)),
