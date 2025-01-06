@@ -8,6 +8,7 @@ class HomeController extends GetxController {
 
   final nicknameController = TextEditingController();
   final lockIdController = TextEditingController();
+  bool lockfound=false;
 
   Map<String, Color> statusColors = {
     "Connected": Colors.green,

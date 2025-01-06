@@ -11,7 +11,7 @@ class VedioPlayer_live extends StatefulWidget {
 
 class _VedioPlayer_liveState extends State<VedioPlayer_live> {
   // URL of the YouTube video
-  final vedioURL = "https://youtu.be/yKDWXC4o5nA?si=1GHIhIqVxKKkMaDe";
+  final vedioURL = "https://youtu.be/4VQdzTv8E-g?si=MBbe-JOsU8Wix2rb";
 
   // Controller to manage the YouTube video
   late YoutubePlayerController playerController;

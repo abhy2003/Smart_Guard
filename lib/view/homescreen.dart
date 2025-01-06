@@ -17,7 +17,7 @@ class Homescreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('Smart Guard', style: GoogleFonts.poppins(color: Colors.redAccent[900],fontWeight: FontWeight.bold)),
+        title: Text('Smart Guard', style: GoogleFonts.poppins(color: Colors.white54,fontWeight: FontWeight.bold)),
         backgroundColor: Colors.blueGrey[900],
         actions: [
           IconButton(
@@ -163,6 +163,7 @@ class Homescreen extends StatelessWidget {
                     }
 
                     Get.snackbar(
+                      backgroundColor: Colors.teal,
                       "Bluetooth",
                       lock.isBluetoothConnected.value
                           ? "Bluetooth Connected"
@@ -208,6 +209,7 @@ class Homescreen extends StatelessWidget {
                     }
 
                     Get.snackbar(
+                      backgroundColor: Colors.teal,
                       "WiFi",
                       lock.isWiFiConnected.value
                           ? "WiFi Connected"
@@ -248,6 +250,7 @@ class Homescreen extends StatelessWidget {
                 onPressed: () {
                   lock.lockStatus.value = lock.lockStatus.value == 'locked' ? 'unlocked' : 'locked';
                   Get.snackbar(
+                    backgroundColor: Colors.teal,
                     "Lock Status",
                     lock.lockStatus.value == 'locked' ? "Lock Activated" : "Lock Deactivated",
                   );
@@ -335,15 +338,27 @@ class Homescreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 controller.connectLock();
-                Get.snackbar(
-                  'Success',
-                  'Lock found',
-                  snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: Colors.green,
-                  colorText: Colors.white,
-                  duration: Duration(seconds: 3),
-                );
                 Get.back();
+                if (controller.lockfound){
+                  Get.snackbar(
+                    'Success',
+                    'Lock found',
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.green,
+                    colorText: Colors.white,
+                    duration: Duration(seconds: 3),
+                  );
+                }else{
+                  Get.snackbar(
+                    'Error',
+                    'Lock not found',
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.red,
+                    colorText: Colors.white,
+                    duration: Duration(seconds: 3),
+                  );
+                }
+
               },
               child: Text('Add Lock', style: GoogleFonts.poppins(color:Colors.black,fontSize: 18, fontWeight: FontWeight.bold)),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
