@@ -5,7 +5,8 @@ class HomeScreenModel {
   String lockId;
   RxString lockStatus;
   RxString tamperingValue;
-  RxString sensorvalue;
+  RxString motion;
+  RxDouble vibration;
   var isBluetoothConnected = false.obs;
   var isWiFiConnected = false.obs;
   var isBluetoothLoading = false.obs;
@@ -17,6 +18,7 @@ class HomeScreenModel {
     required this.lockId,
     required this.lockStatus,
     required this.tamperingValue,
-    required this.sensorvalue,
+    required this.motion,
+    required this.vibration,
   });
 }

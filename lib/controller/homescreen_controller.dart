@@ -17,20 +17,55 @@ class HomeController extends GetxController {
 
   void connectLock() {
     if (nicknameController.text.isNotEmpty && lockIdController.text.isNotEmpty) {
-      final newLock = HomeScreenModel(
-        nickname: nicknameController.text.trim(),
-        lockId: lockIdController.text.trim(),
-        lockStatus: 'Not Connected'.obs,
-        tamperingValue: 'No'.obs,
-        sensorvalue: 'N/A'.obs,
-      );
-      locks.add(newLock);
-      nicknameController.clear();
-      lockIdController.clear();
+      bool isLockFound = checkForLock();
+
+      if (isLockFound) {
+        final newLock = HomeScreenModel(
+          nickname: nicknameController.text.trim(),
+          lockId: lockIdController.text.trim(),
+          lockStatus: 'Not Connected'.obs,
+          tamperingValue: 'No'.obs,
+          motion: 'N/A'.obs,
+          vibration: 0.0.obs,
+        );
+        locks.add(newLock);
+
+        Get.snackbar(
+          "Success",
+          "Lock found",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+
+        nicknameController.clear();
+        lockIdController.clear();
+      } else {
+        Get.snackbar(
+          "Error",
+          "Lock doesn't found",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
     } else {
-      Get.snackbar("Error", "Please fill in all fields.");
+      Get.snackbar(
+        "Error",
+        "Please fill in all fields.",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
+
+
+  bool checkForLock() {
+    return nicknameController.text == "ValidNickname" &&
+        lockIdController.text == "ValidLockID";
+  }
+
 
 
   void updateLockStatus(String lockId, String status, String tampering, String sensor) {
@@ -38,7 +73,7 @@ class HomeController extends GetxController {
     if (lock != null) {
       lock.lockStatus.value = status;
       lock.tamperingValue.value = tampering;
-      lock.sensorvalue.value = sensor;
+      lock.motion.value = sensor;
       locks.refresh();
     }
   }
@@ -48,7 +83,7 @@ class HomeController extends GetxController {
     if (selectedLock.value != null) {
       selectedLock.value!.lockStatus.value = status;
       selectedLock.value!.tamperingValue.value = tampering;
-      selectedLock.value!.sensorvalue.value = sensor;
+      selectedLock.value!.motion.value = sensor;
       selectedLock.refresh();
     }
   }

@@ -139,7 +139,11 @@ class Homescreen extends StatelessWidget {
               style: GoogleFonts.poppins(fontSize: 14, color: Colors.white70),
             ),
             Text(
-              'Sensor: ${lock.sensorvalue ?? "N/A"}',
+              'Motion: ${lock.motion ?? "N/A"}',
+              style: GoogleFonts.poppins(fontSize: 14, color: Colors.white70),
+            ),
+            Text(
+              'Vibration: ${lock.vibration ?? 0.0.obs}',
               style: GoogleFonts.poppins(fontSize: 14, color: Colors.white70),
             ),
             SizedBox(height: 16),
