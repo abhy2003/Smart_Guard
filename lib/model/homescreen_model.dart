@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 class HomeScreenModel {
+  int id;
   String name;
   int connection_id;
   RxString lockStatus;
@@ -14,6 +15,7 @@ class HomeScreenModel {
   var isBluetoothAnimationShown = false.obs;
   var isWiFiAnimationShown = false.obs;
   HomeScreenModel({
+    required this.id,
     required this.name,
     required this.connection_id,
     required this.lockStatus,

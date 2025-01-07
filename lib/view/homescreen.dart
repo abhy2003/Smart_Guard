@@ -113,7 +113,7 @@ class Homescreen extends StatelessWidget {
             ),
             SizedBox(height: 8),
             Text(
-              'Lock ID: ${lock.connection_id}',
+              'Name: ${lock.name}',
               style: GoogleFonts.poppins(fontSize: 14, color: Colors.white70),
             ),
             SizedBox(height: 8),
@@ -249,6 +249,7 @@ class Homescreen extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: () {
                   lock.lockStatus.value = lock.lockStatus.value == 'locked' ? 'unlocked' : 'locked';
+                  controller.updateLockStatus();
                   Get.snackbar(
                     backgroundColor: Colors.teal,
                     "Lock Status",
@@ -389,15 +390,15 @@ class Homescreen extends StatelessWidget {
               SizedBox(height: 16),
 
               Obx(() {
-                final name = logcontroller.name;
-                final email = logcontroller.email;
+                final username = controller.username;
+                final email = controller.email;
 
-                return name != null && email != null
+                return username != null && email != null
                     ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Nickname: $name',
+                      'User Name: $username',
                       style: GoogleFonts.poppins(color: Colors.white, fontSize: 18),
                     ),
                     SizedBox(height: 8),

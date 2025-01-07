@@ -39,10 +39,10 @@ class LoginPage extends StatelessWidget {
                 child: Column(
                   children: [
                     TextFormField(
-                      controller: controller.emailController,
+                      controller: controller.usernameController,
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
-                        labelText: 'Email',
+                        labelText: 'User Name',
                         labelStyle: TextStyle(color: Colors.white70),
                         filled: true,
                         fillColor: Colors.grey[850],
