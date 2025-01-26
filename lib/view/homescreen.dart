@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
 import 'package:smart_gaurd/controller/login_controller.dart';
 import 'package:smart_gaurd/view/video_player.dart';
 import '../controller/homescreen_controller.dart';
 import '../model/homescreen_model.dart';
 
 class Homescreen extends StatelessWidget {
-  final HomeController controller = Get.put(HomeController());
+  final LockController controller = Get.put(LockController());
   final LoginController logcontroller=Get.put(LoginController());
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,10 +122,10 @@ class Homescreen extends StatelessWidget {
                       fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 Obx(() => Text(
-                  lock.lockStatus.value == 'locked' ? 'Locked' : 'Unlocked',
+                  lock.lockStatus.value == 'Locked' ? 'Locked' : 'Open',
                   style: GoogleFonts.poppins(
                     fontSize: 14,
-                    color: lock.lockStatus.value == 'locked' ? Colors.red : Colors.green,
+                    color: lock.lockStatus.value == 'Locked' ? Colors.red : Colors.green,
                   ),
                 )),
               ],
@@ -147,125 +144,27 @@ class Homescreen extends StatelessWidget {
               style: GoogleFonts.poppins(fontSize: 14, color: Colors.white70),
             ),
             SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Obx(() => ElevatedButton.icon(
-                  onPressed: () async {
-                    lock.isBluetoothLoading.value = true;
-                    await Future.delayed(Duration(seconds: 2));
-                    lock.isBluetoothConnected.value = !lock.isBluetoothConnected.value;
-                    lock.isBluetoothLoading.value = false;
-                    if (!lock.isBluetoothAnimationShown.value && lock.isBluetoothConnected.value) {
-                      lock.isBluetoothAnimationShown.value = true;
-                    } else if (!lock.isBluetoothConnected.value) {
-                      lock.isBluetoothAnimationShown.value = false;
-                    }
-
-                    Get.snackbar(
-                      backgroundColor: Colors.teal,
-                      "Bluetooth",
-                      lock.isBluetoothConnected.value
-                          ? "Bluetooth Connected"
-                          : "Bluetooth Disconnected",
-                    );
-                  },
-                  icon: lock.isBluetoothLoading.value
-                      ? Center(child: CircularProgressIndicator(color: Colors.white))
-                      : Icon(Icons.bluetooth, color: Colors.white),
-                  label: lock.isBluetoothLoading.value
-                      ? Container() // Empty container while loading
-                      : lock.isBluetoothAnimationShown.value
-                      ? Column(
-                    children: [
-                      Lottie.asset('assets/homescreen/bluetooth.json', width: 40, height: 40),
-                      Text(
-                        "Connected",
-                        style: GoogleFonts.poppins(color: Colors.white),
-                      ),
-                    ],
-                  )
-                      : Text(
-                    "Connect",
-                    style: GoogleFonts.poppins(color: Colors.white),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: lock.isBluetoothConnected.value
-                        ? Colors.red
-                        : Colors.blue,
-                  ),
-                )),
-                Obx(() => ElevatedButton.icon(
-                  onPressed: () async {
-                    lock.isWiFiLoading.value = true;
-                    await Future.delayed(Duration(seconds: 2));
-                    lock.isWiFiConnected.value = !lock.isWiFiConnected.value;
-                    lock.isWiFiLoading.value = false;
-
-                    if (!lock.isWiFiAnimationShown.value && lock.isWiFiConnected.value) {
-                      lock.isWiFiAnimationShown.value = true;
-                    } else if (!lock.isWiFiConnected.value) {
-                      lock.isWiFiAnimationShown.value = false;
-                    }
-
-                    Get.snackbar(
-                      backgroundColor: Colors.teal,
-                      "WiFi",
-                      lock.isWiFiConnected.value
-                          ? "WiFi Connected"
-                          : "WiFi Disconnected",
-                    );
-                  },
-                  icon: lock.isWiFiLoading.value
-                      ? Center(child: CircularProgressIndicator(color: Colors.white))
-                      : Icon(Icons.wifi, color: Colors.white),
-                  label: lock.isWiFiLoading.value
-                      ? Container() // Empty container while loading
-                      : lock.isWiFiAnimationShown.value
-                      ? Column(
-                    children: [
-                      Lottie.asset('assets/homescreen/wifi.json', width: 40, height: 40),
-                      Text(
-                        "Connected",
-                        style: GoogleFonts.poppins(color: Colors.white),
-                      ),
-                    ],
-                  )
-                      : Text(
-                    "Connect",
-                    style: GoogleFonts.poppins(color: Colors.white),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: lock.isWiFiConnected.value
-                        ? Colors.red
-                        : Colors.green,
-                  ),
-                )),
-              ],
-            ),
-
-            SizedBox(height: 16),
             Obx(() => Center(
               child: ElevatedButton.icon(
                 onPressed: () {
-                  lock.lockStatus.value = lock.lockStatus.value == 'locked' ? 'unlocked' : 'locked';
-                  controller.updateLockStatus();
+                  lock.lockStatus.value = lock.lockStatus.value == 'Locked' ? 'Open' : 'Locked';
+                  controller.updateLockStatus(lock.lockStatus.value);
                   Get.snackbar(
                     backgroundColor: Colors.teal,
                     "Lock Status",
-                    lock.lockStatus.value == 'locked' ? "Lock Activated" : "Lock Deactivated",
+                    lock.lockStatus.value == 'Locked' ? "Locked" : "Opened",
                   );
                 },
                 icon: Icon(
-                  lock.lockStatus.value == 'locked' ? Icons.lock : Icons.lock_open,
+                  lock.lockStatus.value == 'Locked' ? Icons.lock : Icons.lock_open,
                   color: Colors.white,
                 ),
                 label: Text(
-                  lock.lockStatus.value == 'locked' ? "Unlock" : "Lock",
+                  lock.lockStatus.value == 'Locked' ? "Open" : "Lock",
                   style: GoogleFonts.poppins(color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: lock.lockStatus.value == 'locked' ? Colors.red : Colors.green,
+                  backgroundColor: lock.lockStatus.value == 'Locked' ? Colors.green : Colors.red,
                 ),
               ),
             )),
@@ -301,7 +200,7 @@ class Homescreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
-              controller: controller.nicknameController,
+              controller: controller.nameController,
               decoration: InputDecoration(
                 labelText: 'Name',
                 labelStyle: TextStyle(color: Colors.white70),

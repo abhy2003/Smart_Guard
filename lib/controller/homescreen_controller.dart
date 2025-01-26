@@ -5,9 +5,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../model/homescreen_model.dart';
 
-class HomeController extends GetxController {
+class LockController extends GetxController {
 
-  final baseURL = 'http://192.168.1.2:8000/api';
+  final baseURL = 'http://3.109.91.102:8000/api';
 
   RxString username = "John Doe".obs;
   RxString email = "johndoe@example.com".obs;
@@ -15,7 +15,7 @@ class HomeController extends GetxController {
   var locks = <HomeScreenModel>[].obs;
   var selectedLock = Rxn<HomeScreenModel>();
 
-  final nicknameController = TextEditingController();
+  final nameController = TextEditingController();
   final lockIdController = TextEditingController();
   bool lockfound=true;
 
@@ -32,18 +32,18 @@ class HomeController extends GetxController {
   }
 
   void connectLock() {
-    if (nicknameController.text.isNotEmpty && lockIdController.text.isNotEmpty) {
+    if (nameController.text.isNotEmpty && lockIdController.text.isNotEmpty) {
       final newLock = HomeScreenModel(
         id: 1,
-        name: nicknameController.text.trim(),
-        connection_id: 29829,
+        name: nameController.text.trim(),
+        connection_id: 10000000,
         lockStatus: 'Not Connected'.obs,
         tamperingValue: bool.fromEnvironment('yes'),
         motion: 0.0.obs,
         vibration: 0.0.obs,
       );
       locks.add(newLock);
-      nicknameController.clear();
+      nameController.clear();
       lockIdController.clear();
     } else {
       Get.snackbar("Error", "Please fill in all fields.");
@@ -51,8 +51,8 @@ class HomeController extends GetxController {
   }
 
 
-  Future<void> updateLockStatus() async {
-    final url = Uri.parse('http://192.168.1.2:8000/api/lock/lockstatusupdate');
+  Future<void> updateLockStatus(String status) async {
+    final url = Uri.parse('http://3.109.91.102:8000/api/lock/lockstatusupdate');
 
     try {
       final response = await http.post(
@@ -60,7 +60,7 @@ class HomeController extends GetxController {
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           "id":"1",
-          "status":"Open"
+          "status":status
         }),
       );
 

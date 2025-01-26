@@ -14,7 +14,7 @@ class LoginController extends GetxController {
   final passwordController = TextEditingController();
 
   final storage = FlutterSecureStorage();
-  final baseURL = 'http://192.168.1.2:8000/api';
+  final baseURL = 'http://3.109.91.102:8000/api';
 
   Future<void> login() async {
     final loginUrl = Uri.parse(baseURL+'/login/');
@@ -37,7 +37,7 @@ class LoginController extends GetxController {
 
         // Save tokens securely
         await storage.write(key: 'refreshToken', value: refreshToken);
-        await storage.write(key: 'accessToken', value: accessToken);
+          await storage.write(key: 'accessToken', value: accessToken);
         print(accessToken);
 
         Get.snackbar(

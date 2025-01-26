@@ -10,7 +10,7 @@ class SignUpController extends GetxController {
   final _signUpModel = SignUpModel(username: '', email: '', password: '').obs;
 
   final storage = FlutterSecureStorage();
-  final baseURL = 'http://192.168.1.2:8000/api';
+  final baseURL = 'http://3.109.91.102:8000/api';
 
   SignUpModel get signUpModel => _signUpModel.value;
 

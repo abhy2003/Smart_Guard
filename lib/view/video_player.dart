@@ -11,7 +11,7 @@ class VideoPlayer_live extends StatefulWidget {
 
 class _VideoPlayer_liveState extends State<VideoPlayer_live> {
   // URL of the YouTube video
-  final VideoURL = "https://youtu.be/4VQdzTv8E-g?si=MBbe-JOsU8Wix2rb";
+  final VideoID = "Ko18SgceYX8";
 
   // Controller to manage the YouTube video
   late YoutubePlayerController playerController;
@@ -21,7 +21,7 @@ class _VideoPlayer_liveState extends State<VideoPlayer_live> {
 
   @override
   void initState() {
-    final VideoId = YoutubePlayer.convertUrlToId(VideoURL);
+    final VideoId = YoutubePlayer.convertUrlToId(VideoID);
     // Initialize the YouTube player controller with video ID
     playerController = YoutubePlayerController(
       initialVideoId: VideoId!,
