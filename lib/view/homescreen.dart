@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_gaurd/controller/login_controller.dart';
+import 'package:smart_gaurd/view/log_data.dart';
 import 'package:smart_gaurd/view/video_player.dart';
 import '../controller/homescreen_controller.dart';
 import '../model/homescreen_model.dart';
@@ -63,7 +64,11 @@ class Homescreen extends StatelessWidget {
                 child: Center(
                   child: Text(
                     'Smart Guard',
-                    style: GoogleFonts.poppins(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -74,7 +79,10 @@ class Homescreen extends StatelessWidget {
                     final lock = controller.locks[index];
                     return ListTile(
                       title: Text(lock.name, style: TextStyle(color: Colors.white)),
-                      subtitle: Text('Lock ID: ${lock.connection_id}', style: TextStyle(color: Colors.white70)),
+                      subtitle: Text(
+                        'Lock ID: ${lock.connection_id}',
+                        style: TextStyle(color: Colors.white70),
+                      ),
                       trailing: IconButton(
                         icon: Icon(Icons.delete, color: Colors.redAccent),
                         onPressed: () => controller.removeLock(lock),
@@ -85,6 +93,22 @@ class Homescreen extends StatelessWidget {
                       },
                     );
                   },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Get.to(() => LogData()); // Navigates to LogPage
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.teal, // Button color
+                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                  ),
+                  child: Text(
+                    'Log',
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
                 ),
               ),
             ],
