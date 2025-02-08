@@ -198,7 +198,7 @@ class Homescreen extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: () {
                   Get.snackbar("Live Video", "Opening live video...");
-                  Get.to(() => VideoPlayer_live());
+                  Get.to(() => Video_Player());
                 },
                 icon: Icon(Icons.videocam, color: Colors.white),
                 label: Text(

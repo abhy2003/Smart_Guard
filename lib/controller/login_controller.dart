@@ -14,7 +14,7 @@ class LoginController extends GetxController {
   final passwordController = TextEditingController();
 
   final storage = FlutterSecureStorage();
-  final baseURL = 'http://3.109.91.102:8000/api';
+  final baseURL = 'http://3.109.91.102/api';
 
   Future<void> login() async {
     final loginUrl = Uri.parse(baseURL+'/login/');

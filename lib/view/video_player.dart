@@ -1,63 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-
-class VideoPlayer_live extends StatefulWidget {
-  const VideoPlayer_live({super.key});
-
+class Video_Player extends StatefulWidget {
   @override
-  State<VideoPlayer_live> createState() => _VideoPlayer_liveState();
+  _VideoState createState() => _VideoState();
 }
 
-class _VideoPlayer_liveState extends State<VideoPlayer_live> {
-  // URL of the YouTube video
-  final VideoID = "Ko18SgceYX8";
-
-  // Controller to manage the YouTube video
-  late YoutubePlayerController playerController;
-
-  // Track play/pause state
-  bool isPlaying = false;
+class _VideoState extends State<Video_Player> {
+  bool _isPlaying = true;
+  late final VlcPlayerController _controller;
 
   @override
   void initState() {
-    final VideoId = YoutubePlayer.convertUrlToId(VideoID);
-    // Initialize the YouTube player controller with video ID
-    playerController = YoutubePlayerController(
-      initialVideoId: VideoId!,
-      flags: const YoutubePlayerFlags(
-        autoPlay: false, // Do not autoplay the video
-      ),
-    );
     super.initState();
+    _controller = VlcPlayerController.network(
+      "rtmp://3.109.91.102/live/stream",
+      hwAcc: HwAcc.auto,
+      autoPlay: true,
+      options: VlcPlayerOptions(),
+    );
   }
 
-  // Method to seek forward 10 seconds
-  void seekforward() {
-    final currentPosition = playerController.value.position;
-    final duration = playerController.value.metaData.duration;
-    if (currentPosition.inSeconds + 10 < duration.inSeconds) {
-      playerController.seekTo(currentPosition + const Duration(seconds: 10));
-    }
+  @override
+  void dispose() {
+    _controller.stopRendererScanning();
+    _controller.dispose();
+    super.dispose();
   }
 
-  // Method to seek backward 10 seconds
-  void seekbackward() {
-    final currentPosition = playerController.value.position;
-    if (currentPosition.inSeconds - 10 > 0) {
-      playerController.seekTo(currentPosition - const Duration(seconds: 10));
-    }
-  }
-
-  void togglePlayPause() {
+  void _togglePlayPause() {
     setState(() {
-      if (playerController.value.isPlaying) {
-        playerController.pause();
-        isPlaying = false;
+      if (_isPlaying) {
+        _controller.pause();
       } else {
-        playerController.play();
-        isPlaying = true;
+        _controller.play();
       }
+      _isPlaying = !_isPlaying;
     });
   }
 
@@ -76,61 +54,44 @@ class _VideoPlayer_liveState extends State<VideoPlayer_live> {
         ),
         centerTitle: true,
       ),
-      body: Container(
-        color: Colors.black,
-        child: Column(
-          children: [
-            YoutubePlayer(controller: playerController),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      IconButton(
-                        onPressed: seekbackward,
-                        icon: Icon(
-                          Icons.replay_10,
-                          size: 40,
-                          color: Colors.redAccent,
-                        ),
-                      ),
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Colors.redAccent,
-                        child: IconButton(
-                          onPressed: togglePlayPause,
-                          icon: Icon(
-                            isPlaying ? Icons.pause : Icons.play_arrow,
-                            color: isPlaying ? Colors.white : Colors.white,
-                            size: 40,
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: seekforward,
-                        icon: Icon(
-                          Icons.forward_10,
-                          size: 40,
-                          color: Colors.redAccent,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    "Your Live Video here",
-                    style: GoogleFonts.poppins(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
+      backgroundColor: Colors.black, // Black background
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 225,
+            child: VlcPlayer(
+              aspectRatio: 16 / 9,
+              controller: _controller,
+              placeholder: const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.red, // Red loading indicator
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.red, // Red button background
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onPressed: _togglePlayPause,
+                child: Icon(
+                  _isPlaying ? Icons.pause : Icons.play_arrow,
+                  size: 50,
+                  color: Colors.white, // White icon color
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

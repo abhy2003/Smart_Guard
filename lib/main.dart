@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:smart_gaurd/view/homescreen.dart';
 import 'package:smart_gaurd/view/loginscreen.dart';
 import 'package:smart_gaurd/view/signupscreen.dart';
 import 'package:smart_gaurd/view/video_player.dart';
-
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 final storage = FlutterSecureStorage();
@@ -34,7 +32,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/login', page: () => LoginPage()),
         GetPage(name: '/signup', page: () => SignUpScreen()),
         GetPage(name: '/home', page: () => Homescreen()),
-        GetPage(name: '/vedioplayer', page: () => VideoPlayer_live()),
+        GetPage(name: '/vedioplayer', page: () => Video_Player()),
       ],
     );
   }

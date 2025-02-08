@@ -7,7 +7,7 @@ import '../model/homescreen_model.dart';
 
 class LockController extends GetxController {
 
-  final baseURL = 'http://3.109.91.102:8000/api';
+  final baseURL = 'http://3.109.91.102/api';
 
   RxString username = "John Doe".obs;
   RxString email = "johndoe@example.com".obs;

@@ -41,6 +41,7 @@ dependencies:
   youtube_player_flutter: ^9.1.1
   lottie: ^3.3.0
   flutter_secure_storage: ^9.2.3
+  flutter_vlc_player: ^7.4.2
 
 dev_dependencies:
   flutter_test:
