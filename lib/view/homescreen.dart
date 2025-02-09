@@ -5,7 +5,7 @@ import 'package:smart_gaurd/controller/login_controller.dart';
 import 'package:smart_gaurd/view/log_data.dart';
 import 'package:smart_gaurd/view/video_player.dart';
 import '../controller/homescreen_controller.dart';
-import '../model/homescreen_model.dart';
+import '../model/lock_model.dart';
 
 class Homescreen extends StatelessWidget {
   final LockController controller = Get.put(LockController());
@@ -80,7 +80,7 @@ class Homescreen extends StatelessWidget {
                     return ListTile(
                       title: Text(lock.name, style: TextStyle(color: Colors.white)),
                       subtitle: Text(
-                        'Lock ID: ${lock.connection_id}',
+                        'Lock ID: ${lock.id}',
                         style: TextStyle(color: Colors.white70),
                       ),
                       trailing: IconButton(
@@ -117,7 +117,7 @@ class Homescreen extends StatelessWidget {
       ),
     );
   }
-  Widget _buildLockCard(HomeScreenModel lock) {
+  Widget _buildLockCard(LockModel lock) {
     return Card(
       elevation: 4,
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -155,24 +155,24 @@ class Homescreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 8),
-            Text(
-              'Tampering: ${lock.tamperingValue ?? "No"}',
+            Obx(() => Text(
+              'Tilt Alert: ${lock.tiltAlert.value}',
               style: GoogleFonts.poppins(fontSize: 14, color: Colors.white70),
-            ),
-            Text(
-              'Motion: ${lock.motion ?? "N/A"}',
+            )),
+            Obx(() => Text(
+              'Vibration Alert: ${lock.vibrationAlert.value}',
               style: GoogleFonts.poppins(fontSize: 14, color: Colors.white70),
-            ),
-            Text(
-              'Vibration: ${lock.vibration ?? 0.0.obs}',
+            )),
+            Obx(() => Text(
+              'Tampering: ${lock.tampering.value}',
               style: GoogleFonts.poppins(fontSize: 14, color: Colors.white70),
-            ),
+            )),
             SizedBox(height: 16),
             Obx(() => Center(
               child: ElevatedButton.icon(
                 onPressed: () {
                   lock.lockStatus.value = lock.lockStatus.value == 'Locked' ? 'Open' : 'Locked';
-                  controller.updateLockStatus(lock.lockStatus.value);
+                  controller.updateLockStatus(lock.lockStatus.value, lock.id);
                   Get.snackbar(
                     backgroundColor: Colors.teal,
                     "Lock Status",
@@ -198,7 +198,7 @@ class Homescreen extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: () {
                   Get.snackbar("Live Video", "Opening live video...");
-                  Get.to(() => Video_Player());
+                  Get.to(() => Video_Player(lock.id));
                 },
                 icon: Icon(Icons.videocam, color: Colors.white),
                 label: Text(

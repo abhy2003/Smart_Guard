@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart'; // Import GetX
+
 class Video_Player extends StatefulWidget {
+  final int keyParam; // Rename to keyParam to avoid conflicts
+
+  const Video_Player(this.keyParam, {Key? key}) : super(key: key);
+
   @override
   _VideoState createState() => _VideoState();
 }
@@ -13,8 +19,12 @@ class _VideoState extends State<Video_Player> {
   @override
   void initState() {
     super.initState();
+
+    // Generate URL dynamically using the key parameter
+    String videoUrl = "rtmp://3.109.91.102/live/${widget.keyParam}";
+
     _controller = VlcPlayerController.network(
-      "rtmp://3.109.91.102/live/stream",
+      videoUrl,
       hwAcc: HwAcc.auto,
       autoPlay: true,
       options: VlcPlayerOptions(),
@@ -54,7 +64,7 @@ class _VideoState extends State<Video_Player> {
         ),
         centerTitle: true,
       ),
-      backgroundColor: Colors.black, // Black background
+      backgroundColor: Colors.black,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -66,7 +76,7 @@ class _VideoState extends State<Video_Player> {
               controller: _controller,
               placeholder: const Center(
                 child: CircularProgressIndicator(
-                  color: Colors.red, // Red loading indicator
+                  color: Colors.red,
                 ),
               ),
             ),
@@ -77,7 +87,7 @@ class _VideoState extends State<Video_Player> {
             children: [
               TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: Colors.red, // Red button background
+                  backgroundColor: Colors.red,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -86,7 +96,7 @@ class _VideoState extends State<Video_Player> {
                 child: Icon(
                   _isPlaying ? Icons.pause : Icons.play_arrow,
                   size: 50,
-                  color: Colors.white, // White icon color
+                  color: Colors.white,
                 ),
               ),
             ],
